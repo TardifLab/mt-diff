@@ -25,7 +25,16 @@ for subj in Subj_list:
 
     print("--Thresholding MTon weights based on joint threshold\n")
     cmd = 'tckedit -minweight 0.000000000001 -tck_weights_in ' + 'streamline_weights-thresh.txt' + ' -tck_weights_out ' + 'mitX_filtered.txt' + ' ' + os.path.join(path_analysis,subj,'Diffusion','Tractography','iFOD2_ACT_3M_hcp_connecting.tck') + ' ' +  'mitX_filtered.tck'
+    
     print(cmd)
+    os.system(cmd)
+
+
+    if not os.path.exists('COMMIT_connectomes'):
+        os.mkdir('COMMIT_connectomes')
+
+    print('-- Mapping back to connectome--\n') 
+    cmd = 'tck2connectome -symmetric ' + 'mitX_filtered.tck' + ' -out_assignments ' + os.path.join('COMMIT_connectomes', 'mitX_filtered_assignments.txt') + ' ' + os.path.join(path_analysis, subj,'Diffusion','Connectome','nodes_fixSGM_tob0.nii.gz') + ' ' + os.path.join('COMMIT_connectomes','mitX_filtered_connectome.csv')
     os.system(cmd)
 
     # computing the lenght of each streamline and saving it in a file

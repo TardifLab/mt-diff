@@ -42,6 +42,13 @@ for subj in Subj_list:
     print(cmd)
     os.system(cmd)
 
+    if not os.path.exists('COMMIT_connectomes'):
+        os.mkdir('COMMIT_connectomes')
+
+    print('-- Mapping back to connectome--\n') 
+    cmd = 'tck2connectome -symmetric ' + 'mitX_filtered.tck' + ' -out_assignments ' + os.path.join('COMMIT_connectomes', 'mitX_filtered_assignments.txt') + ' ' + os.path.join(path_analysis, subj,'Diffusion','Connectome','nodes_fixSGM_tob0.nii.gz') + ' ' + os.path.join('COMMIT_connectomes','mitX_filtered_connectome.csv')
+    os.system(cmd)
+
     print("--Computing the length of each streamline\n")
     # computing the lenght of each streamline and saving it in a file
     cmd = 'tckstats mitX_filtered.tck -dump mitX_filtered_length.txt'

@@ -29,13 +29,6 @@ for subj in Subj_list:
     print(' ')
     print(path_COMMIT_subj)
 
-    print('\n Remove Nan from input \n')
-    orig = os.path.join(path_analysis,subj,'Diffusion',dwi_file)
-    cmd = 'fslmaths '+ orig + ' -nan /tmp/mtoff.nii.gz'
-    os.system(cmd)
-    cmd = 'mv /tmp/mtoff.nii.gz ' + orig
-    os.system(cmd)
-
     # If you want to use zeppelin compartment
     ## print('\n Computing the peaks file\n ')
     # If you want to use zeppelin compartment
@@ -45,7 +38,15 @@ for subj in Subj_list:
     os.chdir(path_COMMIT_subj)
 
     if not os.path.exists("tracking/Results_StickZeppelinBall/streamline_weights.txt"):
+        print('\n Remove Nan from input \n')
+        orig = os.path.join(path_analysis,subj,'Diffusion',dwi_file)
+        cmd = 'fslmaths '+ orig + ' -nan /tmp/mtoff.nii.gz'
+        os.system(cmd)
+        cmd = 'mv /tmp/mtoff.nii.gz ' + orig
+        os.system(cmd)
+        
         # Setting the input data
+    
         from commit import trk2dictionary
         trk2dictionary.run(
             ndirs = 500,
@@ -105,15 +106,16 @@ for subj in Subj_list:
 
     print('\n COMMIT fitting done \n')
     # extracting non-zero streamlines
-    print('\n Extracting non-zero streamlines \n') 
-    cmd = 'tckedit -minweight 0.000000000001 -tck_weights_in ' + os.path.join('tracking','Results_StickZeppelinBall','streamline_weights.txt') + ' -tck_weights_out ' + os.path.join('tracking','Results_StickZeppelinBall','mitX_filtered.txt') + ' ' + os.path.join(path_analysis,subj,'Diffusion','Tractography','iFOD2_ACT_3M_hcp_connecting.tck') + ' ' + os.path.join('tracking','Results_StickZeppelinBall', 'mitX_filtered.tck')
-    os.system(cmd)
+    # do this jointly with MTon
+    #print('\n Extracting non-zero streamlines \n') 
+    #cmd = 'tckedit -minweight 0.000000000001 -tck_weights_in ' + os.path.join('tracking','Results_StickZeppelinBall','streamline_weights.txt') + ' -tck_weights_out ' + os.path.join('tracking','Results_StickZeppelinBall','mitX_filtered.txt') + ' ' + os.path.join(path_analysis,subj,'Diffusion','Tractography','iFOD2_ACT_3M_hcp_connecting.tck') + ' ' + os.path.join('tracking','Results_StickZeppelinBall', 'mitX_filtered.tck')
+    #os.system(cmd)
 
-    os.mkdir(os.path.join('tracking','Results_StickZeppelinBall','COMMIT_connectomes'))
+    #os.mkdir(os.path.join('tracking','Results_StickZeppelinBall','COMMIT_connectomes'))
 
-    print('\n Mapping back to connectome \n') 
-    cmd = 'tck2connectome -symmetric ' + os.path.join('tracking','Results_StickZeppelinBall','mitX_filtered.tck') + ' -out_assignments ' + os.path.join('tracking','Results_StickZeppelinBall', 'COMMIT_connectomes', 'mitX_filtered_assignments.txt') + ' ' + os.path.join(path_analysis, subj,'Diffusion','Connectome','nodes_fixSGM_tob0.nii.gz') + ' ' + os.path.join('tracking','Results_StickZeppelinBall','COMMIT_connectomes','mitX_filtered_connectome.csv')
-    os.system(cmd)
+    #print('\n Mapping back to connectome \n') 
+    #cmd = 'tck2connectome -symmetric ' + os.path.join('tracking','Results_StickZeppelinBall','mitX_filtered.tck') + ' -out_assignments ' + os.path.join('tracking','Results_StickZeppelinBall', 'COMMIT_connectomes', 'mitX_filtered_assignments.txt') + ' ' + os.path.join(path_analysis, subj,'Diffusion','Connectome','nodes_fixSGM_tob0.nii.gz') + ' ' + os.path.join('tracking','Results_StickZeppelinBall','COMMIT_connectomes','mitX_filtered_connectome.csv')
+    #os.system(cmd)
 
     os.chdir(path_analysis)
 
