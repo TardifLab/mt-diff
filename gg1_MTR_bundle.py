@@ -62,16 +62,17 @@ for subj in Subj_list:
     np.savetxt('assignment_COMMIT_color.txt', assignment_COMMIT, fmt='%.16f', delimiter='\n')
 
 
-    # Splitting the bundles relative to FS parcelation in different files
-    print("\n---Splitting the bundles relative to FS parcelation in different files\n")
-    os.mkdir('connect2tck_COMMIT')
-    print("connectome2tck -nthreads 8 -tck_weights_in assignment_COMMIT_color.txt -prefix_tck_weights_out connect2tck_COMMIT/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_COMMIT/bundle -keep_self")
-    cmd = 'connectome2tck -nthreads 8 -tck_weights_in assignment_COMMIT_color.txt -prefix_tck_weights_out connect2tck_COMMIT/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_COMMIT/bundle -keep_self'
-    os.system(cmd)
+    # Splitting the bundles relative to FS parcelation in different files (don't need this for eveyone...)
+    if 0:
+        print("\n---Splitting the bundles relative to FS parcelation in different files\n")
+        os.mkdir('connect2tck_COMMIT')
+        print("connectome2tck -nthreads 8 -tck_weights_in assignment_COMMIT_color.txt -prefix_tck_weights_out connect2tck_COMMIT/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_COMMIT/bundle -keep_self")
+        cmd = 'connectome2tck -nthreads 8 -tck_weights_in assignment_COMMIT_color.txt -prefix_tck_weights_out connect2tck_COMMIT/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_COMMIT/bundle -keep_self'
+        os.system(cmd)
 
-    os.mkdir('connect2tck_tractometry')
-    print("connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self")
-    cmd = 'connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self'
-    os.system(cmd)
+        os.mkdir('connect2tck_tractometry')
+        print("connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self")
+        cmd = 'connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self'
+        os.system(cmd)
 
 print("\n===DONE",sys.argv)

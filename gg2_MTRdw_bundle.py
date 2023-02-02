@@ -28,7 +28,7 @@ for subj in Subj_list:
         cmd = 'mrconvert -coord 3 1:end dwi_preproc_B1corr_upsampl_MT_on.nii.gz - | mrmath - mean MTon-nob0-mean.nii.gz -axis 3'
         os.system(cmd)
 
-    cmd = 'mrcalc MToff-nob0-mean.nii.gz MTon-nob0-mean.nii.gz -sub MToff-nob0-mean.nii.gz -div mtr-nobzeros.nii.gz'
+    cmd = 'mrcalc MToff-nob0-mean.nii.gz MTon-nob0-mean.nii.gz -sub MToff-nob0-mean.nii.gz -div - | mrcalc - -finite - -mult mtr-nobzeros.nii.gz'
     os.system(cmd)
 
     #cmd = 'rm MToff-nob0.nii'
@@ -44,7 +44,8 @@ for subj in Subj_list:
 
     # Creating tractometry to compare, mtr-nobzeros.nii is located in path_analysis
     print ("---Creating tractometry with MTRdw\n")
-    cmd = 'tcksample mitX_filtered.tck ../../../Diffusion/mtr-nobzeros.nii.gz COMMIT_connectomes/mitX_filtered_tractometry-nob0.txt -stat_tck mean' 
+    # IRL take median, otherwise end up with Nan
+    cmd = 'tcksample mitX_filtered.tck ../../../Diffusion/mtr-nobzeros.nii.gz COMMIT_connectomes/mitX_filtered_tractometry-nob0.txt -stat_tck median' 
     os.system(cmd)
 
     print ("---Back to connectome\n")
