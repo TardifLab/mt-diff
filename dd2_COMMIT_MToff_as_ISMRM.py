@@ -10,8 +10,8 @@ import sys
 
 
 path_analysis = '/data_/tardiflab/mwc'
-COMMIT_type = 'COMMIT_BZ'
-dwi_file = 'dwi_preproc_B1corr_upsampl.nii.gz'
+COMMIT_type = 'COMMIT_BZ_prenorm'
+dwi_file = 'dwi_preproc_B1corr_upsampl_norm.nii.gz'
 os.chdir(path_analysis)
 
 ##Subj_list = ['S04', 'S07', 'S08', 'S09']
@@ -65,7 +65,7 @@ for subj in Subj_list:
         # Setting parameters
         print('\n Setting parameters \n') 
         mit = commit.Evaluation('.', '.')
-        mit.set_config('doNormalizeSignal', True)
+        mit.set_config('doNormalizeSignal', False)#IRL don't normalize, pre-normalize by the MToff b=0
         mit.set_config('doMergeB0', False)
         mit.set_config('doNormalizeKernels', True)
 
@@ -85,8 +85,9 @@ for subj in Subj_list:
         d_par = 1.7E-3 # Parallel diffusivity [mm^2/s] for the streamline
         d_perp = 0.6E-3 # Perpendicular diffusivity [mm^2/s] for the streamline
         d_perps = [] # Perpendicular diffusivities [mm^2/s] for zeppelin in the voxel
-        d_ISOs = [ 1.7E-3, 3.0E-3 ] # Isotropic diffusivitie(s) [mm^2/s]
-        mit.model.set( d_par, d_perps, d_ISOs, d_perp =d_perp) 
+        #d_ISOs = [ 1.7E-3, 3.0E-3 ] # Isotropic diffusivitie(s) [mm^2/s]
+        d_ISOs = [3.0E-3]  # Isotropic diffusivitie(s) [mm^2/s]
+        mit.model.set( d_par, d_perps, d_ISOs, d_perp=d_perp) 
         mit.generate_kernels( ndirs=500, regenerate=True )
         mit.load_kernels()
 
@@ -106,7 +107,7 @@ for subj in Subj_list:
 
     print('\n COMMIT fitting done \n')
     # extracting non-zero streamlines
-    # do this jointly with MTon
+    # No, do this jointly with MTon in ee1
     #print('\n Extracting non-zero streamlines \n') 
     #cmd = 'tckedit -minweight 0.000000000001 -tck_weights_in ' + os.path.join('tracking','Results_StickZeppelinBall','streamline_weights.txt') + ' -tck_weights_out ' + os.path.join('tracking','Results_StickZeppelinBall','mitX_filtered.txt') + ' ' + os.path.join(path_analysis,subj,'Diffusion','Tractography','iFOD2_ACT_3M_hcp_connecting.tck') + ' ' + os.path.join('tracking','Results_StickZeppelinBall', 'mitX_filtered.tck')
     #os.system(cmd)
