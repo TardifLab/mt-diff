@@ -59,8 +59,13 @@ mrgrid -voxel 1 -interp linear $path_data'/'$patient_folder_name'/Diffusion/prep
 mrgrid -voxel 1 -interp linear $path_data'/'$patient_folder_name'/Diffusion/preprocessing/dwi_MT_on_dn_dw_db.nii.gz' regrid dwi_preproc_B1corr_upsampl_MT_on.nii.gz
 #
 # Upsampling MT on images and b0 substitution with b0 MT off: comment for other processing
+# IRL 2023-02-02
+# Don't replace the b=0 for MTon, use the original b=0 and pre-normalize both acquisitions 
+# with the b=0 of the MToff
 mrconvert -coord 3 0:0 dwi_preproc_B1corr_upsampl.nii.gz b0_MT_off.nii.gz
-mrconvert -coord 3 1:30 dwi_preproc_B1corr_upsampl_MT_on.nii.gz - | mrcat  -axis 3 b0_MT_off.nii.gz - dwi_preproc_B1corr_upsampl_MT_on_b0_MT_off.nii.gz
+mrcalc dwi_preproc_B1corr_upsampl.nii.gz b0_MT_off.nii.gz -div dwi_preproc_B1corr_upsampl_norm.nii.gz
+#mrconvert -coord 3 1:30 dwi_preproc_B1corr_upsampl_MT_on.nii.gz - | mrcat  -axis 3 b0_MT_off.nii.gz - dwi_preproc_B1corr_upsampl_MT_on_b0_MT_off.nii.gz
+mrcalc dwi_preproc_B1corr_upsampl_MT_on.nii.gz b0_MT_off.nii.gz -div dwi_preproc_B1corr_upsampl_MT_on_norm.nii.gz
 #fslroi dwi_preproc_B1corr_upsampl_MT_on b1500_MT_on 1 30
 #fslmerge -t dwi_preproc_B1corr_upsampl_MT_on_b0_MT_off b0_MT_off b1500_MT_on
 # # rm dwi_preproc_B1corr_upsampl_MT_on.nii.gz
