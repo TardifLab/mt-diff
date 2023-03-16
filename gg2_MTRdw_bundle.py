@@ -18,6 +18,7 @@ for subj in Subj_list:
     print("\n====Running subject ", subj,sys.argv)
     os.chdir(os.path.join(path_analysis, subj, 'Diffusion'))
 
+    # Comptue the MTR of the mean of the diffusion-weighted volumes
     print("mrconvert -coord 3 1:end dwi_preproc_B1corr_upsampl.nii.gz - | mrmath - mean MToff-nob0-mean.nii.gz -axis 3\n")
     if not os.path.exists("MToff-nob0-mean.nii.gz"):
         cmd = 'mrconvert -coord 3 1:end dwi_preproc_B1corr_upsampl.nii.gz - | mrmath - mean MToff-nob0-mean.nii.gz -axis 3'
@@ -38,7 +39,7 @@ for subj in Subj_list:
     #os.system(cmd)
 
 
-    path_subj = path_analysis + '/' + subj + '/COMMIT_BZ/tracking/Results_StickZeppelinBall'
+    path_subj = path_analysis + '/' + subj + '/COMMIT_BZ_prenorm/tracking/Results_StickZeppelinBall'
     os.chdir(path_subj)
     print(path_subj)
 

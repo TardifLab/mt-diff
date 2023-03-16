@@ -16,8 +16,8 @@ for subj in Subj_list:
     print ("==Processing subject ", sys.argv[0], subj)
     os.chdir(os.path.join(path_analysis, subj, 'Diffusion'))
 
-    cmd = 'fslroi dwi_preproc_B1corr_upsampl.nii.gz b0_MT_off 0 1'
-    os.system(cmd)
+    #cmd = 'fslroi dwi_preproc_B1corr_upsampl.nii.gz b0_MT_off 0 1'
+    #os.system(cmd)
 
     cmd = 'fslroi dwi_preproc_B1corr_upsampl_MT_on.nii.gz b0_MT_on 0 1'
     os.system(cmd)
@@ -25,14 +25,14 @@ for subj in Subj_list:
     cmd = 'fslmaths b0_MT_off -sub b0_MT_on -div b0_MT_off MTR'
     os.system(cmd)
 
-    cmd = 'rm b0_MT_off.nii.gz'
-    os.system(cmd)
+    #cmd = 'rm b0_MT_off.nii.gz'
+    #os.system(cmd)
 
     cmd = 'rm b0_MT_on.nii.gz'
     os.system(cmd)
 
 
-    path_subj = path_analysis + '/' + subj + '/COMMIT_BZ/tracking/Results_StickZeppelinBall'
+    path_subj = path_analysis + '/' + subj + '/COMMIT_BZ_prenorm/tracking/Results_StickZeppelinBall'
     os.chdir(path_subj)
     print(path_subj)
 
@@ -63,16 +63,17 @@ for subj in Subj_list:
 
 
     # Splitting the bundles relative to FS parcelation in different files (don't need this for eveyone...)
-    if 0:
+    if 1:
         print("\n---Splitting the bundles relative to FS parcelation in different files\n")
         os.mkdir('connect2tck_COMMIT')
         print("connectome2tck -nthreads 8 -tck_weights_in assignment_COMMIT_color.txt -prefix_tck_weights_out connect2tck_COMMIT/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_COMMIT/bundle -keep_self")
         cmd = 'connectome2tck -nthreads 8 -tck_weights_in assignment_COMMIT_color.txt -prefix_tck_weights_out connect2tck_COMMIT/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_COMMIT/bundle -keep_self'
         os.system(cmd)
 
-        os.mkdir('connect2tck_tractometry')
-        print("connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self")
-        cmd = 'connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self'
-        os.system(cmd)
+        # IRL we now do the tractometry with the MTR of the diffusion-weighted images,no longer with the b=0
+        #os.mkdir('connect2tck_tractometry')
+        #print("connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self")
+        #cmd = 'connectome2tck -nthreads 8 -tck_weights_in assignment_tractometry_color.txt -prefix_tck_weights_out connect2tck_tractometry/bundles_ mitX_filtered.tck COMMIT_connectomes/mitX_filtered_assignments.txt connect2tck_tractometry/bundle -keep_self'
+        #os.system(cmd)
 
 print("\n===DONE",sys.argv)
