@@ -19,8 +19,8 @@ Subj_list = sys.argv[1:]
 for subj in Subj_list:
 	print("\n====Running subject ", sys.argv[0], subj)
 
-	connectome_MToff_file = subj + '/COMMIT_BZ/tracking/Results_StickZeppelinBall/COMMIT_connectomes/mitX_filtered_connectome_sumXbyL_over_meanL.csv'
-	connectome_MTon_file = subj + '/COMMIT_BZ_MT_on/tracking/Results_StickZeppelinBall/COMMIT_connectomes/mitX_filtered_connectome_sumXbyL_over_meanL.csv'
+	connectome_MToff_file = subj + '/COMMIT_BZ_prenorm/tracking/Results_StickZeppelinBall/COMMIT_connectomes/mitX_filtered_connectome_sumXbyL_over_meanL.csv'
+	connectome_MTon_file = subj + '/COMMIT_BZ_MT_on_prenorm/tracking/Results_StickZeppelinBall/COMMIT_connectomes/mitX_filtered_connectome_sumXbyL_over_meanL.csv'
 
 	connectome_MToff = np.genfromtxt(connectome_MToff_file,delimiter=',')
 	connectome_MTon = np.genfromtxt(connectome_MTon_file,delimiter=',')
@@ -31,6 +31,6 @@ for subj in Subj_list:
 
     #diff=(connectome_MToff-connectome_MTon)
 	#out_file ='/tmp/blach'+ subj
-	out_file = subj + '/COMMIT_BZ/tracking/Results_StickZeppelinBall/COMMIT_connectomes/mitX_filtered_connectome_COMMIT.csv'
+	out_file = subj + '/COMMIT_BZ_prenorm/tracking/Results_StickZeppelinBall/COMMIT_connectomes/mitX_filtered_connectome_COMMIT.csv'
 	np.savetxt(out_file,connectome_MTR1 , fmt="%.5f", delimiter=",")
 	print("\n===DONE",sys.argv)

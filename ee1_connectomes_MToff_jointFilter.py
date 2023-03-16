@@ -6,8 +6,8 @@ import sys
 
 ## NB change these files name/path
 path_analysis = '/data_/tardiflab/mwc'
-COMMIT_type = 'COMMIT_BZ'
-COMMIT_type_on = 'COMMIT_BZ_MT_on'
+COMMIT_type = 'COMMIT_BZ_prenorm'
+COMMIT_type_on = 'COMMIT_BZ_MT_on_prenorm'
 # Subj_list = ['S04', 'S07', 'S08', 'S09']
 #Subj_list = ['hc24r']
 Subj_list = sys.argv[1:]
