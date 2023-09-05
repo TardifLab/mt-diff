@@ -62,3 +62,8 @@ Setup paths and dependencies
 
 `gg2_MTRdw_bundle.py`
 
+## Data availability
+Sample data is available through Dataverse (https://doi.org/10.5683/SP3/LNFHGO) or upon request through a formal data sharing agreement and approval from the local ethics committees.
+	
+The dataset contains the dual-encoded raw MT-weighted diffusion data and processed files for 1 subject. It also contains the MTR connectivity matrices (tract-specific and tractometry) for all 10 subjects (scan-rescan)
+
